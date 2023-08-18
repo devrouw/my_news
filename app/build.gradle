@@ -1,0 +1,104 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file('local.properties')))
+def apiKey = localProperties['myApiKey'].toString()
+
+android {
+    namespace 'com.lollipop.mynews'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.lollipop.mynews"
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "API_KEY", "\"$apiKey\""
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        viewBinding true
+        buildConfig = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    /** NetworkLibs */
+    implementation 'com.squareup.moshi:moshi:1.13.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
+    /** DepedencyInjectionLibs */
+    implementation "com.google.dagger:hilt-android:2.42"
+    kapt "com.google.dagger:hilt-compiler:2.42"
+
+    /** LoggingLibs */
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    /** DebugLibs */
+    implementation 'com.facebook.stetho:stetho:1.6.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
+
+    /** LifecycleLibs */
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+
+    /** Storage */
+    kapt('androidx.room:room-compiler:2.4.2')
+    implementation 'androidx.room:room-runtime:2.4.2'
+    implementation 'androidx.room:room-ktx:2.4.2'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
+    /** ImageProcessingLibs */
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    kapt('com.github.bumptech.glide:compiler:4.12.0')
+
+    /** View */
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.balysv:material-ripple:1.0.2'
+
+    /** UnitTestLibs */
+    testImplementation "androidx.room:room-testing:2.4.2"
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.mockito:mockito-core:3.6.0'
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
+    testImplementation 'org.json:json:20210307'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
